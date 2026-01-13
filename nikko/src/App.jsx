@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import Card from "./components/Card";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const page = {
+    height: "100vh",  
+    width: "100vw",  
+    display: "flex",  
+    alignItems: "center",  
+    justifyContent: "center", 
+    fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial",
+    background:
+      "radial-gradient(100vw 100vh at 50% 22%, rgba(47,111,237,.20), transparent 62%)," +
+      "radial-gradient(100vw 100vh at 50% 78%, rgba(124,58,237,.14), transparent 62%)," +
+      "linear-gradient(180deg, #f3f6ff, #f7f2ff)",
+    margin: 0,  
+    overflow: "hidden",  
+    boxSizing: "border-box",
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div style={page}>
+        <div style={{ textAlign: "center" }}>
+          <Card />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
-
-export default App
