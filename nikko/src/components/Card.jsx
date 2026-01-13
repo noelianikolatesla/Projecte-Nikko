@@ -5,8 +5,10 @@ import IconHeart from "./IconHeart";
 import IconShield from "./IconShield";
 import FeatureCard from "./FeatureCard";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 export default function Card() {
+    const navigate = useNavigate();
   const badge = {
     width: 90,
     height: 90,
@@ -84,9 +86,13 @@ export default function Card() {
       </div>
 
       {/* Botón dentro de la Card */}
-      <button className="cta" type="button">
-        Empezar conversación
-      </button>
+    <button
+      className="cta"
+      type="button"
+      onClick={() => navigate("/chat")}
+    >
+      Empezar conversación
+    </button>
 
       {/* Footer dentro de la Card */}
       <Footer />
