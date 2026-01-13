@@ -11,10 +11,13 @@ export default function App() {
     alignItems: "center",
     justifyContent: "center",
     fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial",
-    background:
-      "radial-gradient(100vw 100vh at 50% 22%, rgba(47,111,237,.20), transparent 62%)," +
-      "radial-gradient(100vw 100vh at 50% 78%, rgba(124,58,237,.14), transparent 62%)," +
-      "linear-gradient(180deg, #f3f6ff, #f7f2ff)",
+    background: 
+    `
+      radial-gradient(1200px 600px at 50% 0%, rgba(120, 150, 255, 0.12), transparent 70%),
+      radial-gradient(1200px 600px at 50% 100%, rgba(200, 170, 255, 0.12), transparent 70%),
+      linear-gradient(180deg, #f8faff 0%, #faf7ff 100%)
+    `,
+
     margin: 0,
     overflow: "hidden",
   };

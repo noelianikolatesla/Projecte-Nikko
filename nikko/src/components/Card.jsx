@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/button.css";  
+import "../styles/button.css";
 import IconLock from "./IconLock";
 import IconHeart from "./IconHeart";
 import IconShield from "./IconShield";
@@ -8,12 +8,13 @@ import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 
 export default function Card() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
   const badge = {
     width: 90,
     height: 90,
     borderRadius: 999,
-    margin: "2px auto 18px",
+    margin: "0 auto 16px",
     display: "grid",
     placeItems: "center",
     background:
@@ -24,53 +25,44 @@ export default function Card() {
   return (
     <div
       style={{
-        width: "min(400px, 92vw)",
-        height: "min(580px, 92vh)",
+        width: "min(420px, 92vw)",         
         background: "#fff",
-        borderRadius: 22,
-        boxShadow: "0 18px 40px rgba(18, 40, 90, .14)",
-        padding: "34px 34px 26px",
+        borderRadius: 28,                  
+        padding: "34px 30px 24px",         
+        boxShadow: "0 18px 45px rgba(35, 50, 90, 0.18)", 
         textAlign: "center",
-        position: "relative",
       }}
     >
-      {/* Aquí añadimos IconShield en lugar del icono de Lock */}
       <div style={badge}>
-        <IconShield size={45} color="white" /> {/* Usa IconShield aquí */}
+        <IconShield size={45} color="white" />
       </div>
 
       <h1
         style={{
-          margin: "0 0 20px", // Más espacio debajo del título
+          margin: "6px 0 10px",
           fontSize: 25,
-          letterSpacing: ".2px",
-          color: "#1c388e",
           fontWeight: 500,
+          color: "#2a3a78",
+          letterSpacing: "-0.2px",
         }}
       >
         No estás solo/a
       </h1>
+
       <p
         style={{
-          margin: "0 auto 30px",  // Más espacio debajo del párrafo
+          margin: "0 auto 22px",
           maxWidth: 420,
-          fontSize: 16.5,
-          lineHeight: 1.5,
-          color: "#4a5464",
+          fontSize: 15.5,
+          lineHeight: 1.55,
+          color: "#55628a",
         }}
       >
         Estoy aquí para escucharte. Este es un espacio seguro donde puedes
         compartir lo que sientes sin miedo ni juicio.
       </p>
 
-      <div
-        style={{
-          margin: "14px 0 30px",  // Más separación entre los FeatureCards
-          display: "flex",
-          flexDirection: "column",
-          gap: 20,  // Aumenta el gap para los FeatureCards
-        }}
-      >
+      <div style={{ display: "grid", gap: 14, margin: "0 auto 18px" }}>
         <FeatureCard
           tone="blue"
           title="Confidencial"
@@ -85,17 +77,13 @@ export default function Card() {
         />
       </div>
 
-      {/* Botón dentro de la Card */}
-    <button
-      className="cta"
-      type="button"
-      onClick={() => navigate("/chat")}
-    >
-      Empezar conversación
-    </button>
+      <button className="cta" type="button" onClick={() => navigate("/chat")}>
+        Empezar conversación
+      </button>
 
-      {/* Footer dentro de la Card */}
-      <Footer />
+      <div style={{ marginTop: 18 }}>
+        <Footer />
+      </div>
     </div>
   );
 }

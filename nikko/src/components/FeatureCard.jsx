@@ -28,7 +28,7 @@ function FeatureCard({ tone, title, subtitle, icon }) {
     <div style={{ ...base, ...variants[tone] }}>
       <div
         style={{
-          width: 40,
+          width: 45,
           height: 40,
           borderRadius: 12,
           display: "grid",
