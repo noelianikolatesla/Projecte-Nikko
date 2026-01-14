@@ -1,41 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "../styles/chat.css";
 
-function buildEmpathicReply(userText) {
-  const t = (userText || "").trim().toLowerCase();
-
-  // Respuestas simples y empáticas (sin juicios / sin minimizar)
-  const patterns = [
-    {
-      keys: ["miedo", "asust", "panic", "ansiedad"],
-      reply:
-        "Siento que estés pasando por eso. Tener miedo puede ser muy duro. ¿Quieres contarme qué es lo que más te preocupa ahora mismo?",
-    },
-    {
-      keys: ["triste", "llorar", "solo", "sola", "vacío", "vacia"],
-      reply:
-        "Gracias por abrirte. Lo que sientes importa. ¿Qué ha pasado últimamente que te hace sentir así?",
-    },
-    {
-      keys: ["bully", "acoso", "insultan", "pegan", "amenazan", "humill"],
-      reply:
-        "Lo siento mucho. Nadie merece pasar por eso. Si te parece, cuéntame qué ocurrió y dónde, para pensar juntos en un paso seguro.",
-    },
-    {
-      keys: ["vergüenza", "culpa"],
-      reply:
-        "Entiendo. A veces la vergüenza o la culpa aparecen incluso cuando no hemos hecho nada malo. ¿Qué te gustaría que alguien te dijera ahora mismo para sentirte un poco más acompañado/a?",
-    },
-  ];
-
-  const hit = patterns.find((p) => p.keys.some((k) => t.includes(k)));
-  if (hit) return hit.reply;
-
-  // Por defecto
-  return "Te estoy leyendo con atención. Gracias por confiar en mí. ¿Qué parte de lo que estás viviendo te gustaría contar primero?";
-}
-
 export default function Chat({ onBack }) {
+  // ===== BACKEND / LÓGICA (del primer código) =====
+  const sessionIdRef = useRef(crypto.randomUUID());
+
   const firstBotMessage = useMemo(
     () => ({
       id: crypto.randomUUID(),
@@ -47,33 +16,68 @@ export default function Chat({ onBack }) {
 
   const [messages, setMessages] = useState([firstBotMessage]);
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const listRef = useRef(null);
 
   useEffect(() => {
-    // autoscroll
     listRef.current?.scrollTo({
       top: listRef.current.scrollHeight,
       behavior: "smooth",
     });
   }, [messages]);
 
-  function send() {
+  async function send() {
     const text = input.trim();
-    if (!text) return;
+    if (!text || isLoading) return;
 
-    const userMsg = { id: crypto.randomUUID(), role: "user", text };
+    const userMsg = {
+      id: crypto.randomUUID(),
+      role: "user",
+      text,
+    };
+
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
+    setIsLoading(true);
 
-    // respuesta "bot" con pequeño delay
-    setTimeout(() => {
+    try {
+      const res = await fetch("http://localhost:3001/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: text,
+          sessionId: sessionIdRef.current,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Error en la API");
+
+      const data = await res.json();
+
       const botMsg = {
         id: crypto.randomUUID(),
         role: "bot",
-        text: buildEmpathicReply(text),
+        text: data.reply,
       };
+
       setMessages((prev) => [...prev, botMsg]);
-    }, 350);
+    } catch (error) {
+      console.error("Error al conectar con la API:", error);
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          role: "bot",
+          text:
+            "Lo siento, ahora mismo tengo un problema técnico, pero sigo aquí contigo 💙",
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   function onKeyDown(e) {
@@ -83,13 +87,13 @@ export default function Chat({ onBack }) {
     }
   }
 
+  // ===== FRONTEND / UI (del segundo código) =====
   return (
     <div className="chatPage">
       {/* HEADER */}
       <header className="topBar">
         <div className="topBarLeft">
           <div className="topAvatar" aria-hidden="true">
-            {/* icono circular */}
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path
                 d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"
@@ -104,13 +108,13 @@ export default function Chat({ onBack }) {
             <div className="topTitle">Asistente de Apoyo</div>
             <div className="topStatus">
               <span className="statusDot" />
-              En línea
+              {isLoading ? "Escribiendo..." : "En línea"}
             </div>
           </div>
         </div>
 
-        <button className="menuBtn" type="button" aria-label="Menú">
-          ☰
+        <button className="menuBtn" type="button" onClick={onBack}>
+          Volver
         </button>
       </header>
 
@@ -126,12 +130,19 @@ export default function Chat({ onBack }) {
                 💬
               </div>
             )}
+
             <div className={`msgBubble ${m.role}`}>
               {m.text}
-              <div className="msgTime">20:20</div>
+              <div className="msgTime">—</div>
             </div>
           </div>
         ))}
+
+        {isLoading && (
+          <div className="msgRow left">
+            <div className="msgBubble bot">Escribiendo…</div>
+          </div>
+        )}
       </main>
 
       {/* INPUT */}
@@ -144,11 +155,13 @@ export default function Chat({ onBack }) {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={onKeyDown}
             rows={1}
+            disabled={isLoading}
           />
           <button
             className="sendBtn"
             type="button"
             onClick={send}
+            disabled={isLoading}
             aria-label="Enviar"
           >
             ➤
