@@ -14,6 +14,10 @@ const client = new BedrockAgentRuntimeClient({
   region: process.env.AWS_REGION,
 });
 
+app.get("/", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 app.post("/api/chat", async (req, res) => {
   console.log("📩 Mensaje recibido:", req.body);
   const { message, sessionId } = req.body;
@@ -55,3 +59,5 @@ app.post("/api/chat", async (req, res) => {
 app.listen(3001, () => {
   console.log("✅ Backend activo en http://localhost:3001");
 });
+
+

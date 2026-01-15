@@ -9,10 +9,12 @@ services:
       - NODE_ENV=production
       - PORT=3001
     restart: unless-stopped
-
+    volumes:
+      - ./backend:/app
+    
   frontend:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
       - "8080:80"
