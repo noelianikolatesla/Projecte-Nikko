@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+
 import "../styles/chat.css";
 
 export default function Chat({ onBack }) {
@@ -41,7 +43,7 @@ export default function Chat({ onBack }) {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3001/api/chat",{
+      const res = await fetch("http://localhost:3001/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -130,11 +132,17 @@ export default function Chat({ onBack }) {
                 💬
               </div>
             )}
-
             <div className={`msgBubble ${m.role}`}>
-              {m.text}
+              {m.role === "bot" ? (
+                <ReactMarkdown>{m.text}</ReactMarkdown>
+              ) : (
+                m.text
+              )}
               <div className="msgTime">—</div>
             </div>
+
+
+
           </div>
         ))}
 
