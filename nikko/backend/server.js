@@ -15,6 +15,7 @@ const client = new BedrockAgentRuntimeClient({
 });
 
 app.post("/api/chat", async (req, res) => {
+  console.log("📩 Mensaje recibido:", req.body);
   const { message, sessionId } = req.body;
 
   if (!message || !sessionId) {
