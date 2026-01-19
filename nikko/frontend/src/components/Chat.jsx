@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import profilePic from "../assets/perfil_nikko.png";
 
 import "../styles/chat.css";
 
@@ -131,8 +132,8 @@ export default function Chat({ onBack }) {
             className={`msgRow ${m.role === "user" ? "right" : "left"}`}
           >
             {m.role === "bot" && (
-              <div className="msgMiniIcon" aria-hidden="true">
-                💬
+              <div className="msgMiniIcon">
+                <img src={profilePic} alt="Nikko" className="miniAvatar" />
               </div>
             )}
             <div className={`msgBubble ${m.role}`}>
