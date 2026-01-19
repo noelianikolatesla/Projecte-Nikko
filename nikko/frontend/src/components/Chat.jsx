@@ -137,6 +137,9 @@ export default function Chat({ onBack }) {
               </div>
             )}
             <div className={`msgBubble ${m.role}`}>
+              { m.role === "bot" && (
+                <div className="botName">Nikko</div>
+              )}
               {m.role === "bot" ? (
                 <ReactMarkdown>{m.text}</ReactMarkdown>
               ) : (
