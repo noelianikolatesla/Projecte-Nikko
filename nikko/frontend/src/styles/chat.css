@@ -116,6 +116,14 @@
   object-fit: cover;    
 }
 
+/* Nombre del bot */
+.botName {
+  font-weight: bold;
+  font-size: 15px;
+  text-align: left;
+  color: #8e339d;
+}
+
 /* Burbuja */
 .msgBubble {
   max-width: min(680px, 70vw);
