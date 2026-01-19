@@ -12,6 +12,7 @@ export default function Chat({ onBack }) {
       id: crypto.randomUUID(),
       role: "bot",
       text: "Hola, gracias por estar aquí. Puedes contarme lo que necesites, estoy para escucharte 💙",
+      timestamp: Date.now(),
     }),
     []
   );
@@ -36,6 +37,7 @@ export default function Chat({ onBack }) {
       id: crypto.randomUUID(),
       role: "user",
       text,
+      timestamp: Date.now(),
     };
 
     setMessages((prev) => [...prev, userMsg]);
@@ -62,6 +64,7 @@ export default function Chat({ onBack }) {
         id: crypto.randomUUID(),
         role: "bot",
         text: data.reply,
+        timestamp: Date.now(),
       };
 
       setMessages((prev) => [...prev, botMsg]);
@@ -138,7 +141,13 @@ export default function Chat({ onBack }) {
               ) : (
                 m.text
               )}
-              <div className="msgTime">—</div>
+              <div className="msgTime">
+                {new Intl.DateTimeFormat("es-ES", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }).format(new Date(m.timestamp))
+                }
+              </div>
             </div>
 
 
