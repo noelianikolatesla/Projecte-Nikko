@@ -15,6 +15,7 @@
   "dependencies": {
     "@aws-sdk/client-bedrock-agent-runtime": "^3.969.0",
     "@aws-sdk/client-bedrock-runtime": "^3.969.0",
+    "@aws-sdk/client-polly": "^3.971.0",
     "body-parser": "^2.2.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
