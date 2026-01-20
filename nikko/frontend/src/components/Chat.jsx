@@ -79,6 +79,7 @@ export default function Chat({ onBack }) {
           role: "bot",
           text:
             "Lo siento, ahora mismo tengo un problema técnico, pero sigo aquí contigo 💙",
+          timestamp: Date.now(),
         },
       ]);
     } finally {
