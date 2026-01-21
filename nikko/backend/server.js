@@ -4,6 +4,18 @@ import express from "express";
 import cors from "cors";
 import agentPkg from "@aws-sdk/client-bedrock-agent-runtime";
 
+
+import { PollyClient, SynthesizeSpeechCommand } from "@aws-sdk/client-polly";
+
+const pollyClient = new PollyClient({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    sessionToken: process.env.AWS_SESSION_TOKEN,
+  },
+});
+
 const { BedrockAgentRuntimeClient, InvokeAgentCommand } = agentPkg;
 
 const app = express();
@@ -55,6 +67,38 @@ app.post("/api/chat", async (req, res) => {
     });
   }
 });
+
+// configurar amazon polly
+app.post("/api/tts", async (req, res) => {
+  const { text } = req.body;
+
+  if (!text) {
+    return res.status(400).json({ error: "Texto requerido" });
+  }
+
+  try {
+    const command = new SynthesizeSpeechCommand({
+      Text: text,
+      OutputFormat: "mp3",
+      VoiceId: "Sergio",
+      Engine: "neural",
+      LanguageCode: "es-ES",
+    });
+
+    const response = await pollyClient.send(command);
+
+    res.set({
+      "Content-Type": "audio/mpeg",
+      "Content-Disposition": "inline",
+    });
+
+    response.AudioStream.pipe(res);
+  } catch (error) {
+    console.error("❌ Error Polly:", error);
+    res.status(500).json({ error: "Error generando voz" });
+  }
+});
+
 
 app.listen(3001, () => {
   console.log("✅ Backend activo en http://localhost:3001");

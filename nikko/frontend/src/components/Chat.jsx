@@ -94,6 +94,37 @@ export default function Chat({ onBack }) {
     }
   }
 
+  //FUNCION SPEAK OMITIDA POR AHORA
+  async function speak(text) {
+    try {
+      console.log("🔊 Solicitando audio para:", text);
+
+      const res = await fetch("http://localhost:3001/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+
+      console.log("Respuesta Polly:", res.status, res.headers.get("content-type"));
+
+      const blob = await res.blob();
+      console.log("Blob:", blob);
+
+      const url = URL.createObjectURL(blob);
+      console.log("Audio URL:", url);
+
+      const audio = new Audio(url);
+
+      audio.onplay = () => console.log("▶️ Audio reproduciéndose");
+      audio.onerror = (e) => console.error("❌ Error audio", e);
+
+      await audio.play();
+    } catch (e) {
+      console.error("❌ Error reproduciendo voz", e);
+    }
+  }
+
+
   // ===== FRONTEND / UI (del segundo código) =====
   return (
     <div className="chatPage">
@@ -138,7 +169,18 @@ export default function Chat({ onBack }) {
               </div>
             )}
             <div className={`msgBubble ${m.role}`}>
-              { m.role === "bot" && (
+              {m.role === "bot" && (
+                <button
+                  className="speakBtn"
+                  onClick={() => speak(m.text)}
+                  title="Escuchar respuesta"
+                  aria-label="Escuchar respuesta"
+                >
+                  🔊
+                </button>
+              )}
+
+              {m.role === "bot" && (
                 <div className="botName">Nikko</div>
               )}
               {m.role === "bot" ? (
