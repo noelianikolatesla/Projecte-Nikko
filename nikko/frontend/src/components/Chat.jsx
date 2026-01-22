@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import profilePic from "../assets/perfil_nikko.png";
+import LoadingAnimation from "../js/LoadingAnimation"; 
 
 import "../styles/chat.css";
 
@@ -204,7 +205,9 @@ export default function Chat({ onBack }) {
 
         {isLoading && (
           <div className="msgRow left">
-            <div className="msgBubble bot">Escribiendo…</div>
+            <div className="msgBubble bot">
+              <LoadingAnimation />
+            </div>
           </div>
         )}
       </main>
