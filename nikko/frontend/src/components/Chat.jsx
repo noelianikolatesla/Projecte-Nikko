@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import profilePic from "../assets/perfil_nikko.png";
+import perfilChat from "../assets/perfil_chat.jpeg";
+import profilePic from "../assets/perfil_nikko.jpeg";
+import profilePic2 from "../assets/perfil_user.jpeg";
 import LoadingAnimation from "../js/LoadingAnimation"; 
 
 import "../styles/chat.css";
@@ -133,18 +135,11 @@ export default function Chat({ onBack }) {
       <header className="topBar">
         <div className="topBarLeft">
           <div className="topAvatar" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"
-                stroke="white"
-                strokeWidth="1.8"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <img src={perfilChat} alt="Perfil" className="topAvatarImg" />
           </div>
 
           <div className="topBarText">
-            <div className="topTitle">Asistente de Apoyo</div>
+            <div className="topTitle">Nikko</div>
             <div className="topStatus">
               <span className="statusDot" />
               {isLoading ? "Escribiendo..." : "En línea"}
@@ -164,11 +159,19 @@ export default function Chat({ onBack }) {
             key={m.id}
             className={`msgRow ${m.role === "user" ? "right" : "left"}`}
           >
+
             {m.role === "bot" && (
               <div className="msgMiniIcon">
                 <img src={profilePic} alt="Nikko" className="miniAvatar" />
               </div>
             )}
+
+            {m.role === "user" && (
+              <div className="msgMiniIcon">
+                <img src={profilePic2} alt="User" className="miniAvatar" />
+              </div>
+            )}
+
             <div className={`msgBubble ${m.role}`}>
               {m.role === "bot" && (
                 <button
@@ -180,10 +183,7 @@ export default function Chat({ onBack }) {
                   🔊
                 </button>
               )}
-
-              {m.role === "bot" && (
-                <div className="botName">Nikko</div>
-              )}
+          
               {m.role === "bot" ? (
                 <ReactMarkdown>{m.text}</ReactMarkdown>
               ) : (
@@ -197,9 +197,6 @@ export default function Chat({ onBack }) {
                 }
               </div>
             </div>
-
-
-
           </div>
         ))}
 

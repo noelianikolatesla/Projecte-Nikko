@@ -41,6 +41,14 @@ html, body {
   background: linear-gradient(180deg, #7aa2ff, #8b5bff);
 }
 
+.topAvatarImg {
+  width: 36px;         /* ajusta tamaño a tu gusto */
+  height: 36px;
+  border-radius: 50%;  /* círculo perfecto */
+  object-fit: cover;   /* recorta la imagen si no es cuadrada */
+  display: block;
+}
+
 .topBarText {
   display: flex;
   flex-direction: column;
@@ -105,21 +113,24 @@ html, body {
 
 /* Iconito pequeño a la izquierda */
 .msgMiniIcon {
-  width: 70px;          
-  height: 70px;
+  width: 50px;          
+  height: 50px;
   border-radius: 50%;   
   overflow: hidden;     
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f0f0f0; 
+  background-color:transparent;
+  flex-shrink: 0;
 }
 
 .miniAvatar {
   width: 100%;
   height: 100%;
-  object-fit: cover;    
+  object-fit: cover;
 }
+
+
 
 /* Nombre del bot */
 .botName {
@@ -157,7 +168,7 @@ html, body {
   opacity: 0.55;
   margin-top: 6px;
   display: block;
-  text-align: right;
+  text-align: left;
 }
 
 /* Barra inferior fija */
@@ -167,7 +178,7 @@ html, body {
   right: 0;
   bottom: 0;
   padding: 14px 18px calc(18px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, rgba(255,255,255,0.0), rgba(255,255,255,0.8) 30%, #fff 90%);
+  background: #ffffff;
   border-top: 1px solid rgba(16, 24, 40, 0.06);
 }
 
@@ -175,27 +186,27 @@ html, body {
   max-width: 760px;
   margin: 0 auto;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 12px;
-  background: #f4f5f7;
-  border-radius: 14px;
-  padding: 10px 10px 10px 14px;
 }
 
 .chatInput {
   flex: 1;
   border: 0;
   outline: none;
-  background: transparent;
   resize: none;
   
+  background: #f4f5f7;
+  border-radius: 14px;
+  padding: 14px 14px;
+
   font-size: 14px;
   line-height: 1.3;
-  color: rgba(35, 46, 66, 0.95);
+  color: rgba(56, 35, 66, 0.95);
 }
 
 .chatInput:focus {
-  padding: 10px;
+  /*padding: 10px;*/
   border-radius: 12px;
   border: 2px solid rgb(186, 186, 186);
 }
@@ -204,9 +215,10 @@ html, body {
 .sendBtn {
   width: 42px;
   height: 42px;
-  border-radius: 999px;
+  border-radius: 50%;
   border: 0;
   cursor: pointer;
+  flex-shrink: 0;
   color: #fff;
   background: linear-gradient(180deg, #8b5bff, #6d7dff);
   display: grid;
