@@ -1,0 +1,156 @@
+/* Estilos generales para la página de información */
+.infoPage {
+  font-family: Arial, sans-serif;
+  background: #f9f9fb;
+  padding: 20px;
+  height: 100vh; /* Ocupa toda la pantalla */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Evita que el contenedor principal haga scroll */
+}
+
+/* HEADER (barra fija) */
+.infoTopBar {
+  position: fixed;  /* Fija la barra en la parte superior */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  z-index: 1000;  /* Asegura que la barra quede sobre el contenido */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+}
+
+.infoTopBarTitle {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.infoTopBar h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.infoSubTitle {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* Estilo para el botón de vuelta */
+.infoBackBtn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+/* Contenedor de contenido principal (debajo de la barra fija) */
+.infoContent {
+  margin-top: 80px;  /* Espacio para la barra fija */
+  overflow-y: auto; /* Habilita el desplazamiento solo en el contenido */
+  padding-bottom: 20px;  /* Espacio extra al final */
+  flex-grow: 1;  /* Permite que el contenido ocupe el espacio restante */
+}
+
+/* ADVERTENCIA DE PELIGRO */
+.infoDangerAlert {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.infoDangerAlert span {
+  font-weight: bold;
+}
+
+/* LÍNEAS DE AYUDA */
+.infoHelpLines {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.infoHelpLine {
+  margin-bottom: 15px;
+}
+
+.infoHelpLine h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.infoHelpLine p {
+  font-size: 14px;
+  color: #555;
+}
+
+.infoContactInfo {
+  display: flex;
+  align-items: center;
+}
+
+.infoContactInfo button {
+  background: transparent;
+  border: none;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.infoIconBtn {
+  font-size: 18px;
+  color: #007bff;
+}
+
+/* CONSEJOS SOBRE BULLOING */
+.infoBullyingAdvice, .infoHelpCompanion {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.infoBullyingAdvice h2, .infoHelpCompanion h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.infoBullyingAdvice ul, .infoHelpCompanion ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.infoBullyingAdvice li, .infoHelpCompanion li {
+  font-size: 14px;
+  color: #555;
+}
+
+/* RECURSOS ONLINE */
+.infoOnlineResources {
+  background-color: #e0f7fa;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.infoResourceLink {
+  margin-bottom: 10px;
+}
+
+.infoResourceLink a {
+  font-size: 16px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.infoResourceLink a:hover {
+  text-decoration: underline;
+}

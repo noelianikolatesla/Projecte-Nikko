@@ -79,15 +79,28 @@ html, body {
 
 /* Botón menú */
 .menuBtn {
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  border: 1px solid rgba(16, 24, 40, 0.12);
-  background: #fff;
+  display: flex;
+  justify-content: center;  
+  align-items: center;    
+  width: 40px;             
+  height: 40px;            
+  background-color: transparent; 
+  border-radius: 50%;       
+  border: none;             
   cursor: pointer;
-  font-size: 18px;
-  line-height: 1;
+  transition: background-color 0.3s ease; 
 }
+
+.menuBtn:hover {
+  background-color: rgba(200, 200, 200, 0.3); 
+}
+
+.menuBtn svg {
+  width: 20px;  
+  height: 20px;
+}
+
+
 
 /* Cuerpo del chat ocupa todo el espacio */
 .chatBody {
