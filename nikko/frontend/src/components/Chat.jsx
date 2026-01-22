@@ -1,12 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";  // Asegúrate de incluir useRef
+import { useNavigate } from "react-router-dom";  // Importar useNavigate
+import { FaBars } from "react-icons/fa";  // Importar el ícono de hamburguesa de react-icons
 import ReactMarkdown from "react-markdown";
 import profilePic from "../assets/perfil_nikko.png";
 import LoadingAnimation from "../js/LoadingAnimation"; 
 
 import "../styles/chat.css";
 
-export default function Chat({ onBack }) {
-  // ===== BACKEND / LÓGICA (del primer código) =====
+export default function Chat() {
+  const navigate = useNavigate(); // Inicializar el hook navigate
+
   const sessionIdRef = useRef(crypto.randomUUID());
 
   const firstBotMessage = useMemo(
@@ -95,38 +98,11 @@ export default function Chat({ onBack }) {
     }
   }
 
-  //FUNCION SPEAK OMITIDA POR AHORA
-  async function speak(text) {
-    try {
-      console.log("🔊 Solicitando audio para:", text);
+  // Función para manejar la navegación
+  const goBack = () => {
+    navigate("/info"); // Cambia la ruta a '/info'
+  };
 
-      const res = await fetch("http://localhost:3001/api/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
-
-      console.log("Respuesta Polly:", res.status, res.headers.get("content-type"));
-
-      const blob = await res.blob();
-      console.log("Blob:", blob);
-
-      const url = URL.createObjectURL(blob);
-      console.log("Audio URL:", url);
-
-      const audio = new Audio(url);
-
-      audio.onplay = () => console.log("▶️ Audio reproduciéndose");
-      audio.onerror = (e) => console.error("❌ Error audio", e);
-
-      await audio.play();
-    } catch (e) {
-      console.error("❌ Error reproduciendo voz", e);
-    }
-  }
-
-
-  // ===== FRONTEND / UI (del segundo código) =====
   return (
     <div className="chatPage">
       {/* HEADER */}
@@ -152,8 +128,9 @@ export default function Chat({ onBack }) {
           </div>
         </div>
 
-        <button className="menuBtn" type="button" onClick={onBack}>
-          Volver
+        {/* BOTÓN DE HAMBURGUESA */}
+        <button className="menuBtn" type="button" onClick={goBack}>
+          <FaBars size={20} />
         </button>
       </header>
 
@@ -193,13 +170,9 @@ export default function Chat({ onBack }) {
                 {new Intl.DateTimeFormat("es-ES", {
                   hour: "2-digit",
                   minute: "2-digit",
-                }).format(new Date(m.timestamp))
-                }
+                }).format(new Date(m.timestamp))}
               </div>
             </div>
-
-
-
           </div>
         ))}
 
