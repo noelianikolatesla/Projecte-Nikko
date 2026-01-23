@@ -135,7 +135,7 @@ export default function Chat({ onBack }) {
       <header className="topBar">
         <div className="topBarLeft">
           <div className="topAvatar" aria-hidden="true">
-            <img src={perfilChat} alt="Perfil" className="topAvatarImg" />
+            <img src={perfilChat} alt="Perfil" className="topAvatarImg" /> {/* MODIFICAR */}
           </div>
 
           <div className="topBarText">
