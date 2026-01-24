@@ -99,6 +99,35 @@ export default function Chat() {
       send();
     }
   }
+    // 🔊 FUNCIÓN SPEAK (TU IMPLEMENTACIÓN)
+  async function speak(text) {
+    try {
+      console.log("🔊 Solicitando audio para:", text);
+
+      const res = await fetch("http://localhost:3001/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Error en la API de TTS");
+      }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+
+      const audio = new Audio(url);
+
+      audio.onended = () => URL.revokeObjectURL(url);
+      audio.onerror = (e) => console.error("❌ Error audio", e);
+
+      await audio.play();
+    } catch (e) {
+      console.error("❌ Error reproduciendo voz", e);
+    }
+  }
+
 
   // Función para manejar la navegación
   const goBack = () => {
