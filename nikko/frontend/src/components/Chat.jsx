@@ -7,6 +7,8 @@ import profilePic from "../assets/perfil_nikko.jpeg";
 import profilePic2 from "../assets/perfil_user.jpeg";
 import LoadingAnimation from "../js/LoadingAnimation"; 
 
+
+
 import "../styles/chat.css";
 
 export default function Chat() {
@@ -23,6 +25,12 @@ export default function Chat() {
     }),
     []
   );
+
+  // variables de grabación
+  const [recording, setRecording] = useState(false);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+
 
   const [messages, setMessages] = useState([firstBotMessage]);
   const [input, setInput] = useState("");
@@ -128,11 +136,59 @@ export default function Chat() {
     }
   }
 
+  //funcion para empezar a grabar audio
+  async function startRecording() {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+  const mediaRecorder = new MediaRecorder(stream);
+  audioChunksRef.current = [];
+
+  mediaRecorder.ondataavailable = (e) => {
+    audioChunksRef.current.push(e.data);
+  };
+
+  mediaRecorder.onstop = sendAudio;
+
+  mediaRecorder.start();
+  mediaRecorderRef.current = mediaRecorder;
+  setRecording(true);
+}
+
+//funcion para parar la grabacion
+function stopRecording() {
+  mediaRecorderRef.current.stop();
+  setRecording(false);
+}
+
+//funcion para enviar el audio grabado al backend
+async function sendAudio() {
+  const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+console.log("🎧 Audio enviado:", audioBlob);
+
+  const formData = new FormData();
+  formData.append("audio", audioBlob);
+
+  const res = await fetch("http://localhost:3001/api/stt", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await res.json();
+  console.log("📩 Respuesta STT:", data);
+
+
+  // 👉 usamos el texto como si el usuario lo hubiera escrito
+  setInput(data.text);
+  send();
+}
+
 
   // Función para manejar la navegación
   const goBack = () => {
     navigate("/info"); // Cambia la ruta a '/info'
   };
+
+
 
   return (
     <div className="chatPage">
@@ -175,7 +231,9 @@ export default function Chat() {
             {m.role === "user" && (
               <div className="msgMiniIcon">
                 <img src={profilePic2} alt="User" className="miniAvatar" />
+                
               </div>
+              
             )}
 
             <div className={`msgBubble ${m.role}`}>
@@ -217,6 +275,10 @@ export default function Chat() {
       {/* INPUT */}
       <footer className="composerBar">
         <div className="composerInner">
+          <button onClick={recording ? stopRecording : startRecording}>
+  {recording ? "⏹️" : "🎤"}
+</button>
+
           <textarea
             className="chatInput"
             placeholder="Escribe tu mensaje aquí..."
@@ -235,6 +297,7 @@ export default function Chat() {
           >
             ➤
           </button>
+          
         </div>
       </footer>
     </div>
