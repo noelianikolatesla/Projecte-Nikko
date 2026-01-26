@@ -16,7 +16,7 @@ export default function Info() {
       {/* HEADER */}
       <header className="infoTopBar">
         <button className="infoBackBtn" onClick={goBack}>
-          ← Volver
+          ←
         </button>
         <div className="infoTopBarTitle">
           <h1>Recursos de Ayuda</h1>
@@ -25,7 +25,7 @@ export default function Info() {
       </header>
 
       {/* CONTENIDO DESPLAZABLE */}
-      <div className="infoContent">
+      <div className="infoContent" style={{ flexGrow: 1, overflowY: "auto" }}>
         {/* ADVERTENCIA DE PELIGRO */}
         <section className="infoDangerAlert">
           <p>¿Estás en peligro? <span>Si estás en una situación de riesgo inmediato, contacta a servicios de emergencia o a un adulto de confianza ahora mismo.</span></p>
