@@ -12,6 +12,8 @@ import LoadingAnimation from "../js/LoadingAnimation";
 
 
 
+
+
 import "../styles/chat.css";
 
 export default function Chat() {
@@ -199,7 +201,7 @@ console.log("🎧 Audio enviado:", audioBlob);
       <header className="topBar">
         <div className="topBarLeft">
           <div className="topAvatar" aria-hidden="true">
-            <img src={perfilChat} alt="Perfil" className="topAvatarImg" />
+            <img src={perfilChat} alt="Perfil" className="topAvatarImg" /> {/* MODIFICAR */}
           </div>
 
           <div className="topBarText">
