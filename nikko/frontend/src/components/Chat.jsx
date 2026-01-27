@@ -49,14 +49,15 @@ export default function Chat() {
     });
   }, [messages]);
 
-  async function send() {
-    const text = input.trim();
-    if (!text || isLoading) return;
+  //FUNCION CLAVE: enviar texto directamente al backend
+  async function sendText(text) {
+    const clean = (text || "").trim();
+    if (!clean || isLoading) return;
 
     const userMsg = {
       id: crypto.randomUUID(),
       role: "user",
-      text,
+      clean,
       timestamp: Date.now(),
     };
 
@@ -71,7 +72,7 @@ export default function Chat() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: text,
+          message: clean,
           sessionId: sessionIdRef.current,
         }),
       });
@@ -106,13 +107,18 @@ export default function Chat() {
     }
   }
 
+    // ====== ENVÍO MANUAL ======
+  async function send() {
+    await sendText(input);
+  }
+
   function onKeyDown(e) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       send();
     }
   }
-    // 🔊 FUNCIÓN SPEAK (TU IMPLEMENTACIÓN)
+    // ====== FUNCIÓN TEXT TO SPEAK ========
   async function speak(text) {
     try {
       console.log("🔊 Solicitando audio para:", text);
@@ -137,15 +143,18 @@ export default function Chat() {
 
       await audio.play();
     } catch (e) {
-      console.error("❌ Error reproduciendo voz", e);
+      console.error("❌ Error reproduciendo voz TTS", e);
     }
   }
 
-  //funcion para empezar a grabar audio
+  // ======= funcion para empezar a grabar audio ======
   async function startRecording() {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-  const mediaRecorder = new MediaRecorder(stream);
+  const mediaRecorder = new MediaRecorder(stream, {
+    mimeType: "audio/webm;codecs=opus",
+  });
+
   audioChunksRef.current = [];
 
   mediaRecorder.ondataavailable = (e) => {
@@ -159,13 +168,14 @@ export default function Chat() {
   setRecording(true);
 }
 
+
 //funcion para parar la grabacion
 function stopRecording() {
   mediaRecorderRef.current.stop();
   setRecording(false);
 }
 
-//funcion para enviar el audio grabado al backend
+// ======= funcion para enviar el audio grabado al backend
 async function sendAudio() {
   const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
 console.log("🎧 Audio enviado:", audioBlob);
