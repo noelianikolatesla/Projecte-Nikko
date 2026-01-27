@@ -146,7 +146,7 @@ app.post("/api/stt", upload.single("audio"), async (req, res) => {
 
     const key = `audio/${uuid()}.webm`;
 
-    // 1- Subir audio a S3 (desde memoria)
+    // 1️⃣ Subir audio a S3 (desde memoria)
     await s3.send(
       new PutObjectCommand({
         Bucket: bucket,
@@ -158,7 +158,7 @@ app.post("/api/stt", upload.single("audio"), async (req, res) => {
 
     const jobName = `job-${uuid()}`;
 
-    // 2- Lanzar Transcribe
+    // 2️⃣ Lanzar Transcribe
     await transcribe.send(
       new StartTranscriptionJobCommand({
         TranscriptionJobName: jobName,
@@ -170,11 +170,11 @@ app.post("/api/stt", upload.single("audio"), async (req, res) => {
       })
     );
 
-    // 3- Esperar resultado (polling)
+    // 3️⃣ Esperar resultado (polling)
     let transcriptUri;
 
     for (let i = 0; i < 30; i++) {
-      await new Promise((r) => setTimeout(r, 1000));
+      await new Promise((r) => setTimeout(r, 2000));
 
       const job = await transcribe.send(
         new GetTranscriptionJobCommand({
@@ -201,7 +201,7 @@ app.post("/api/stt", upload.single("audio"), async (req, res) => {
       return res.status(504).json({ error: "transcribe_timeout" });
     }
 
-    // 44 Descargar JSON y extraer texto
+    // 4️⃣ Descargar JSON y extraer texto
     const response = await fetch(transcriptUri);
     const data = await response.json();
     const text = data.results.transcripts[0]?.transcript || "";
