@@ -1,11 +1,16 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";  // Asegúrate de incluir useRef
 import { useNavigate } from "react-router-dom";  // Importar useNavigate
 import { FaBars } from "react-icons/fa";  // Importar el ícono de hamburguesa de react-icons
+import { FiSend } from 'react-icons/fi'; // Importar el ícono de enviar
+import { cilVolumeHigh, cilMic, cilMediaStop  } from "@coreui/icons"; // Importar Iconos
+import CIcon from "@coreui/icons-react"; // Importar CIcon 
 import ReactMarkdown from "react-markdown";
-import perfilChat from "../assets/perfil_chat.jpeg";
+import perfilChat from "../assets/perfil_chat.png";
 import profilePic from "../assets/perfil_nikko.jpeg";
 import profilePic2 from "../assets/perfil_user.jpeg";
-import LoadingAnimation from "../js/LoadingAnimation"; 
+import LoadingAnimation from "../js/LoadingAnimation";
+
+
 
 
 
@@ -20,7 +25,7 @@ export default function Chat() {
     () => ({
       id: crypto.randomUUID(),
       role: "bot",
-      text: "Hola, gracias por estar aquí. Puedes contarme lo que necesites, estoy para escucharte 💙",
+      text: "Hola, me alegro de que estés aquí. Soy Nikko y estoy para escucharte. ¿Hay algo que te gustaría compartir conmigo?",
       timestamp: Date.now(),
     }),
     []
@@ -228,14 +233,6 @@ console.log("🎧 Audio enviado:", audioBlob);
               </div>
             )}
 
-            {m.role === "user" && (
-              <div className="msgMiniIcon">
-                <img src={profilePic2} alt="User" className="miniAvatar" />
-                
-              </div>
-              
-            )}
-
             <div className={`msgBubble ${m.role}`}>
               {m.role === "bot" && (
                 <button
@@ -244,7 +241,7 @@ console.log("🎧 Audio enviado:", audioBlob);
                   title="Escuchar respuesta"
                   aria-label="Escuchar respuesta"
                 >
-                  🔊
+                  <CIcon icon={cilVolumeHigh} />
                 </button>
               )}
           
@@ -260,11 +257,23 @@ console.log("🎧 Audio enviado:", audioBlob);
                 }).format(new Date(m.timestamp))}
               </div>
             </div>
+            
+            {m.role === "user" && (
+              <div className="msgMiniIcon">
+                <img src={profilePic2} alt="User" className="miniAvatar" />
+              </div>
+              
+            )}
+
           </div>
         ))}
 
         {isLoading && (
           <div className="msgRow left">
+            <div className="msgMiniIcon">
+              <img src={profilePic} alt="Nikko" className="miniAvatar" />
+            </div>
+
             <div className="msgBubble bot">
               <LoadingAnimation />
             </div>
@@ -275,19 +284,27 @@ console.log("🎧 Audio enviado:", audioBlob);
       {/* INPUT */}
       <footer className="composerBar">
         <div className="composerInner">
-          <button onClick={recording ? stopRecording : startRecording}>
-  {recording ? "⏹️" : "🎤"}
-</button>
+          <div className="inputWrapper">
+            <textarea
+              className="chatInput"
+              placeholder="Escribe tu mensaje aquí..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={onKeyDown}
+              rows={1}
+              disabled={isLoading}
+            />
 
-          <textarea
-            className="chatInput"
-            placeholder="Escribe tu mensaje aquí..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={onKeyDown}
-            rows={1}
-            disabled={isLoading}
-          />
+            <button
+              className={`micBtn ${recording ? "recording" : ""}`}
+              onClick={recording ? stopRecording : startRecording}
+              type="button"
+              aria-label="Grabar audio"
+            >
+              {recording ? <CIcon icon={cilMediaStop} /> : <CIcon icon={cilMic} />}
+            </button>
+          </div>
+          
           <button
             className="sendBtn"
             type="button"
@@ -295,7 +312,7 @@ console.log("🎧 Audio enviado:", audioBlob);
             disabled={isLoading}
             aria-label="Enviar"
           >
-            ➤
+            <FiSend />
           </button>
           
         </div>
