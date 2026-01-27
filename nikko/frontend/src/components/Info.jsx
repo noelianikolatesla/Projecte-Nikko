@@ -1,22 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FaPhoneAlt, FaClipboard } from "react-icons/fa";  // Para íconos de teléfono y copiar
+import { 
+  FaPhoneAlt, 
+  FaRegCopy, 
+  FaArrowLeft, 
+  FaExclamationCircle, 
+  FaShieldAlt, 
+  FaHeart, 
+  FaExternalLinkAlt 
+} from "react-icons/fa"; 
 
-import "../styles/info.css";  // Asegúrate de tener un archivo de estilos adecuado
+import "../styles/info.css";
 
 export default function Info() {
   const navigate = useNavigate();
-
-  const goBack = () => {
-    navigate("/chat"); // Redirige a la ruta '/chat'
-  };
+  const goBack = () => navigate("/chat");
 
   return (
     <div className="infoPage">
-      {/* HEADER */}
+      {/* HEADER (Se mantiene igual) */}
       <header className="infoTopBar">
         <button className="infoBackBtn" onClick={goBack}>
-          ←
+          <FaArrowLeft />
         </button>
         <div className="infoTopBarTitle">
           <h1>Recursos de Ayuda</h1>
@@ -24,97 +29,109 @@ export default function Info() {
         </div>
       </header>
 
-      {/* CONTENIDO DESPLAZABLE */}
-      <div className="infoContent" style={{ flexGrow: 1, overflowY: "auto" }}>
-        {/* ADVERTENCIA DE PELIGRO */}
-        <section className="infoDangerAlert">
-          <p>¿Estás en peligro? <span>Si estás en una situación de riesgo inmediato, contacta a servicios de emergencia o a un adulto de confianza ahora mismo.</span></p>
-        </section>
+      {/* CONTENIDO DESPLAZABLE (Ocupa todo el ancho) */}
+      <div className="infoContent">
+        
+        {/* NUEVO CONTENEDOR INTERNO (Este es el que se centra) */}
+        <div className="infoContainer">
 
-        {/* LÍNEAS DE AYUDA */}
-        <section className="infoHelpLines">
-          <h2>Líneas de Ayuda</h2>
+            {/* --- AQUÍ DENTRO VA TODO EL CONTENIDO DE TARJETAS --- */}
+            
+            {/* ADVERTENCIA DE PELIGRO */}
+            <section className="infoDangerAlert">
+              <div className="alertIcon">
+                <FaExclamationCircle />
+              </div>
+              <div className="alertText">
+                <h3>¿Estás en peligro?</h3>
+                <p>Si estás en una situación de riesgo inmediato, contacta a servicios de emergencia o a un adulto de confianza ahora mismo.</p>
+              </div>
+            </section>
 
-          <div className="infoHelpLine">
-            <h3>Línea Nacional contra el Bullying</h3>
-            <p>Atención 24/7 para situaciones de acoso escolar</p>
-            <div className="infoContactInfo">
-              <span>900 20 20 10</span>
-              <button className="infoIconBtn">
-                <FaPhoneAlt />
-              </button>
-              <button className="infoIconBtn">
-                <FaClipboard />
-              </button>
+            <h2 className="sectionTitle">Líneas de Ayuda</h2>
+
+            {/* Tarjeta 1 */}
+            <div className="infoCard">
+              <div className="cardContent">
+                <h3>Línea Nacional contra el Bullying</h3>
+                <p>Atención 24/7 para situaciones de acoso escolar</p>
+                <span className="phoneNumber">900 20 20 10</span>
+              </div>
+              <div className="cardActions">
+                <button className="actionBtn outline"><FaRegCopy /></button>
+                <button className="actionBtn primary"><FaPhoneAlt /></button>
+              </div>
             </div>
-          </div>
 
-          <div className="infoHelpLine">
-            <h3>Teléfono ANAR</h3>
-            <p>Ayuda a niños y adolescentes en riesgo</p>
-            <div className="infoContactInfo">
-              <span>900 20 20 10</span>
-              <button className="infoIconBtn">
-                <FaPhoneAlt />
-              </button>
-              <button className="infoIconBtn">
-                <FaClipboard />
-              </button>
+            {/* Tarjeta 2 */}
+            <div className="infoCard">
+              <div className="cardContent">
+                <h3>Teléfono ANAR</h3>
+                <p>Ayuda a niños y adolescentes en riesgo</p>
+                <span className="phoneNumber">900 20 20 10</span>
+              </div>
+              <div className="cardActions">
+                <button className="actionBtn outline"><FaRegCopy /></button>
+                <button className="actionBtn primary"><FaPhoneAlt /></button>
+              </div>
             </div>
-          </div>
 
-          <div className="infoHelpLine">
-            <h3>Emergencias</h3>
-            <p>Para situaciones de peligro inmediato</p>
-            <div className="infoContactInfo">
-              <span>112</span>
-              <button className="infoIconBtn">
-                <FaPhoneAlt />
-              </button>
-              <button className="infoIconBtn">
-                <FaClipboard />
-              </button>
+            {/* Tarjeta 3 Emergencias */}
+            <div className="infoCard dangerCard">
+              <div className="cardContent">
+                <h3 className="dangerText">Emergencias</h3>
+                <p>Para situaciones de peligro inmediato</p>
+                <span className="phoneNumber dangerText">112</span>
+              </div>
+              <div className="cardActions">
+                <button className="actionBtn outline"><FaRegCopy /></button>
+                <button className="actionBtn danger"><FaPhoneAlt /></button>
+              </div>
             </div>
-          </div>
-        </section>
 
-        {/* CONSEJOS SOBRE BULLOING */}
-        <section className="infoBullyingAdvice">
-          <h2>¿Qué hacer si sufro bullying?</h2>
-          <ul>
-            <li>Habla con un adulto de confianza (padres, profesores, orientador)</li>
-            <li>No respondas con violencia a la agresión</li>
-            <li>Guarda evidencias (mensajes, capturas de pantalla)</li>
-            <li>No estás solo/a, buscar ayuda es valiente, no debilidad</li>
-          </ul>
-        </section>
+            {/* CONSEJOS */}
+            <div className="infoCard adviceCard">
+              <div className="cardHeader">
+                <div className="iconCircle blueIcon"><FaShieldAlt /></div>
+                <h3>¿Qué hacer si sufro bullying?</h3>
+              </div>
+              <ul className="adviceList">
+                <li>Habla con un adulto de confianza (padres, profesores, orientador)</li>
+                <li>No respondas con violencia a la agresión</li>
+                <li>Guarda evidencias (mensajes, capturas de pantalla)</li>
+                <li>No estás solo/a, buscar ayuda es valentía, no debilidad</li>
+              </ul>
+            </div>
 
-        {/* CÓMO AYUDAR A UN COMPAÑERO */}
-        <section className="infoHelpCompanion">
-          <h2>¿Cómo ayudar a un compañero?</h2>
-          <ul>
-            <li>No participes ni apoyes el acoso</li>
-            <li>Acompaña a la víctima y hazle saber que no está sola</li>
-            <li>Reporta la situación a un adulto responsable</li>
-            <li>Sé un ejemplo de respeto y empatía</li>
-          </ul>
-        </section>
+            {/* AYUDAR COMPAÑERO */}
+            <div className="infoCard adviceCard">
+              <div className="cardHeader">
+                <div className="iconCircle heartIcon"><FaHeart /></div>
+                <h3>Cómo ayudar a un compañero</h3>
+              </div>
+              <ul className="adviceList">
+                <li>No participes ni apoyes el acoso</li>
+                <li>Acompaña a la víctima y hazle saber que no está sola</li>
+                <li>Reporta la situación a un adulto responsable</li>
+                <li>Sé un ejemplo de respeto y empatía</li>
+              </ul>
+            </div>
 
-        {/* RECURSOS ONLINE */}
-        <section className="infoOnlineResources">
-          <h2>Recursos Online</h2>
-          <div className="infoResourceLink">
-            <a href="https://www.acosoescolar.info" target="_blank" rel="noopener noreferrer">
-              Portal contra el Acoso Escolar
-            </a>
-          </div>
-          <div className="infoResourceLink">
-            <a href="https://www.fundacionanar.org" target="_blank" rel="noopener noreferrer">
-              Fundación ANAR
-            </a>
-          </div>
-        </section>
-      </div>
+            {/* RECURSOS ONLINE */}
+            <div className="onlineResourcesContainer">
+              <h2 className="sectionTitle">Recursos Online</h2>
+              <a href="https://aepae.es/" target="_blank" rel="noopener noreferrer" className="resourceLink">
+                <span>Fundación AEPAE</span>
+                <FaExternalLinkAlt className="linkIcon" />
+              </a>
+              <a href="https://www.anar.org/" target="_blank" rel="noopener noreferrer" className="resourceLink">
+                <span>Fundación ANAR</span>
+                <FaExternalLinkAlt className="linkIcon" />
+              </a>
+            </div>
+
+        </div> {/* FIN DE infoContainer */}
+      </div> {/* FIN DE infoContent */}
     </div>
   );
 }
