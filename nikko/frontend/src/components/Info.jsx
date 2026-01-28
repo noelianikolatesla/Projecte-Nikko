@@ -18,7 +18,7 @@ export default function Info() {
 
   return (
     <div className="infoPage">
-      {/* HEADER (Se mantiene igual) */}
+      {/* HEADER */}
       <header className="infoTopBar">
         <button className="infoBackBtn" onClick={goBack}>
           <FaArrowLeft />
@@ -29,14 +29,10 @@ export default function Info() {
         </div>
       </header>
 
-      {/* CONTENIDO DESPLAZABLE (Ocupa todo el ancho) */}
+      {/* CONTENIDO DESPLAZABLE */}
       <div className="infoContent">
         
-        {/* NUEVO CONTENEDOR INTERNO (Este es el que se centra) */}
         <div className="infoContainer">
-
-            {/* --- AQUÍ DENTRO VA TODO EL CONTENIDO DE TARJETAS --- */}
-            
             {/* ADVERTENCIA DE PELIGRO */}
             <section className="infoDangerAlert">
               <div className="alertIcon">
@@ -130,8 +126,8 @@ export default function Info() {
               </a>
             </div>
 
-        </div> {/* FIN DE infoContainer */}
-      </div> {/* FIN DE infoContent */}
+        </div>
+      </div>
     </div>
   );
 }
