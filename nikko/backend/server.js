@@ -26,14 +26,14 @@ const bedrock = new BedrockAgentRuntimeClient({
   region: process.env.AWS_REGION,
 });
 
-// ===== MULTER (en memoria) =====
+// ===== MULTER =====
 const upload = multer({ storage: multer.memoryStorage() });
 
 // ===== HEALTH =====
 app.get("/", (_, res) => res.json({ ok: true }));
 
 // =====================
-// 💬 CHAT (Bedrock)
+// CHAT (Bedrock)
 // =====================
 app.post("/api/chat", async (req, res) => {
   const { message, sessionId } = req.body;
@@ -63,7 +63,7 @@ app.post("/api/chat", async (req, res) => {
 });
 
 // =====================
-// 🔊 TTS (Polly)
+// TTS (Polly)
 // =====================
 app.post("/api/tts", async (req, res) => {
   const { text } = req.body;
@@ -82,7 +82,7 @@ app.post("/api/tts", async (req, res) => {
 });
 
 // =====================
-// 🎤 STT (Transcribe normal OPTIMIZADO)
+// STT (Transcribe)
 // =====================
 app.post("/api/stt", upload.single("audio"), async (req, res) => {
   try {
@@ -92,7 +92,6 @@ app.post("/api/stt", upload.single("audio"), async (req, res) => {
     const key = `audio/${uuid()}.webm`;
     const jobName = `job-${uuid()}`;
 
-    // 1️⃣ Subir audio a S3
     await s3.send(
       new PutObjectCommand({
         Bucket: bucket,
@@ -102,7 +101,6 @@ app.post("/api/stt", upload.single("audio"), async (req, res) => {
       })
     );
 
-    // 2️⃣ Lanzar Transcribe
     await transcribe.send(
       new StartTranscriptionJobCommand({
         TranscriptionJobName: jobName,
@@ -114,8 +112,7 @@ app.post("/api/stt", upload.single("audio"), async (req, res) => {
       })
     );
 
-    // 3️⃣ Polling rápido (máx 15s)
-    let transcriptUri;
+    let transcriptUri; // (máx 15s)
 
     for (let i = 0; i < 15; i++) {
       await new Promise((r) => setTimeout(r, 1000));
@@ -143,7 +140,6 @@ app.post("/api/stt", upload.single("audio"), async (req, res) => {
       return res.status(504).json({ error: "timeout" });
     }
 
-    // 4️⃣ Descargar texto
     const response = await fetch(transcriptUri);
     const data = await response.json();
     const text = data.results.transcripts[0]?.transcript || "";
